@@ -30,9 +30,25 @@ int main()
     }
 
     std::cout << "\n\nStarting...\n";
+    
+    int arraySize = sizeof(list) / sizeof(list[0]);
+    int midLoc = arraySize / 2;
 
-    for (int i = 0; i < 10; i++) {
-        std::cout << input << " vs " << list[i] << "\n";
+    int midValue = list[midLoc];
+
+    int targetLoc;
+    int searchLimit;
+    
+    if (input >= midValue) {
+        targetLoc = midValue;
+        searchLimit = arraySize;
+    }
+    else {
+        targetLoc = 0;
+        searchLimit = midValue;
+    }
+
+    for (int i = targetLoc; i < searchLimit; i++) {
         if (input < list[i]) {
             std::cout << "Cannot Find Number";
             break;
@@ -42,6 +58,7 @@ int main()
             std::cout << "Found " << input << " which is the " << i + 1 << "th number." << "\n\n";
             break;
         }
+
     }
 
 
