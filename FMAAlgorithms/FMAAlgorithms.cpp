@@ -5,22 +5,27 @@
 
 int main()
 {
-    std::cout << "Enter a positive number:\n\n";
+    std::cout << "Enter 10 numbers\n\n";
 
+    int list[10];
+
+    for (int i = 0; i < 10; i++) {
+        std::cout << " ";
+        std::cin >> list[i];
+    }
+
+    std::cout << "\n\nEnter a number to find\n";
     int input;
     std::cin >> input;
 
-    while (input != 1) {
-        if (input % 2) {
-            input *= 3;
-            input += 1;
-        }
-        else {
-            input /= 2;
-        }
+    std::cout << "\n\nStarting...\n";
 
-        std::cout << "\n\n";
-        std::cout << input;
+    for (int i = 0; i < 10; i++) {
+        int value = list[i];
+        if (value == input) {
+            std::cout << "Found " << input << " which is the " << i + 1 << "th number." << "\n\n";
+            break;
+        }
     }
 
 }
