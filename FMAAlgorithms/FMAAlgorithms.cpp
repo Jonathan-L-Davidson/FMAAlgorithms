@@ -18,14 +18,31 @@ int main()
     int input;
     std::cin >> input;
 
+    std::cout << "\n\nSorting...\n";
+    for (int i = 0; i < 10; i++) {
+        for (int j = i + 1; j < 10; j++) {
+            if (list[i] > list[j]) {
+                int val = list[i];
+                list[i] = list[j];
+                list[j] = val;
+            }
+        }
+    }
+
     std::cout << "\n\nStarting...\n";
 
     for (int i = 0; i < 10; i++) {
-        int value = list[i];
-        if (value == input) {
+        std::cout << input << " vs " << list[i] << "\n";
+        if (input < list[i]) {
+            std::cout << "Cannot Find Number";
+            break;
+        }
+
+        if (input == list[i]) {
             std::cout << "Found " << input << " which is the " << i + 1 << "th number." << "\n\n";
             break;
         }
     }
+
 
 }
