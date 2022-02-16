@@ -4,12 +4,14 @@
 #include <iostream>
 
 void FlaggedBubble(int* array, int size) {
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < size - 1; i++) {
         bool ValueSwapped = false;
-        for (int j = i + 1; j < size; j++) {
-            if (array[i] > array[j]) {
-                int val = array[i];
-                array[i] = array[j];
+
+        for (int j = 0; j < size - i - 1; j++) {
+            if (array[j] > array[j+1]) {
+
+                int val = array[j+1];
+                array[j+1] = array[j];
                 array[j] = val;
                 ValueSwapped = true;
             }
@@ -22,9 +24,10 @@ void FlaggedBubble(int* array, int size) {
 }
 
 void InsertionSort(int* array, int size) {
+    int key, j;
     for (int i = 0; i < size; i++) {
-        int key = array[i];
-        int j = i - 1;
+        key = array[i];
+        j = i - 1;
 
         // while j is more than or equal to 0
         // and higher than key ( array[i] )
@@ -39,36 +42,63 @@ void InsertionSort(int* array, int size) {
 }
 
 void SelectionSort(int* array, int size) {
+    for (int i = 0; i < size - 1; i++) {
+        int minimumVal = i;
+        for (int j = i + 1; j < size; j++) {
+            if (array[j] < array[minimumVal])  minimumVal = j;
+
+            int val = array[i];
+            array[i] = array[minimumVal];
+            array[minimumVal] = val;
+        }
+    }
 }
 void PolyphaseShellSort(int* array, int size) {
+    int ciuraGap[8] = { 701, 301, 132, 57, 23, 10, 4, 1 };
+
+    for (int gap = 0; gap < 8; gap++) {
+        for (int offset = 0; offset < gap; offset++) {
+            for (int i = offset; i < size; i += gap) {
+                int temp = array[i];
+                int j = i;
+                for (j = i; (j >= gap) && (array[j - gap] > temp); j -= gap) {
+                    array[j] = array[j - gap];
+                }
+                array[j] = temp;
+            }
+        }
+    }
 }
 
 int main()
 {
     const int size = 10;
- 
-    std::cout << "Randomly generating" << size << " numbers\n\n";
-    
     int list[size];
 
-    for (int i = 0; i < size; i++) {
-        list[i] = rand() % 100;
-        
-        std::cout << list[i] << "\n";
-    }
+    int input = 1;
 
-    std::cout << "Choose the Sorting Algorithm:\n \
+    while (input != 0) {
+
+        std::cout << "\nRandomly generating " << size << " numbers\n";
+
+        for (int i = 0; i < size; i++) {
+            list[i] = rand() % 100;
+        }
+
+
+        std::cout << "\n\nChoose the Sorting Algorithm:\n \
         1: Flagged Bubble Sort\n \
         2: Insertion Sort\n \
         3: Selection Sort\n \
-        4: Polyphase Shell Sort\n";
+        4: Polyphase Shell Sort\n \
+        0: Quit\n";
 
-    int input;
-    std::cin >> input;
+        std::cin >> input;
+        if (input == 0) break;
 
-    void (*selectedSort)(int*, int) { &FlaggedBubble };
+        void (*selectedSort)(int*, int) { &FlaggedBubble };
 
-    switch (input) {
+        switch (input) {
         case(1):
             selectedSort = &FlaggedBubble;
             break;
@@ -81,18 +111,26 @@ int main()
         case(4):
             selectedSort = &PolyphaseShellSort;
             break;
+        }
+
+
+        std::cout << "\nSorting...\n";
+
+        for (int i = 0; i < size; i++) {
+            std::cout << list[i] << " ";
+        }
+
+        (*selectedSort)(list, size);
+
+        std::cout << "\nSorted. Outputting...\n";
+        
+        for (int i = 0; i < size; i++) {
+            std::cout << list[i] << " ";
+        }
+        std::cout << "\n\n\n";
+
+
     }
-
-    std::cout << "\n\nSorting...\n";
-    
-    (*selectedSort)(list, size);
-
-    std::cout << "\n\nSorted. Outputting...\n\n";
-
-    for (int i = 0; i < size; i++) {
-        std::cout << list[i] << "\n";
-    }
-
 
 
 }
